@@ -71,8 +71,8 @@
   .fuel-opt input[type=radio]:checked + label { background: var(--blue); color: #fff; border-color: var(--blue); }
   .dano-obs { min-height: 80px; }
 
-  /* ── 7-PHOTO GRID ── */
-  .img-7grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+  /* ── 7-PHOTO GRID (Agrupado de a 2) ── */
+  .img-7grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 14px; }
   .img-slot { border: 2px dashed var(--gray-border); border-radius: var(--radius); aspect-ratio: 4/3; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; background: #fafaf8; transition: border-color 0.2s, background 0.2s; }
   .img-slot img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 1; }
   .img-slot-num { position: absolute; top: 5px; left: 7px; font-size: 11px; font-weight: 700; color: var(--gray-text); z-index: 2; line-height: 1; }
@@ -84,8 +84,8 @@
   .img-slot-label { font-size: 10px; color: var(--gray-text); margin-top: 6px; z-index: 2; text-align: center; line-height: 1.3; }
   .img-del { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.55); color: #fff; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 14px; cursor: pointer; z-index: 4; display: flex; align-items: center; justify-content: center; line-height: 1; }
   .img-del:hover { background: rgba(180,0,0,0.8); }
-  @media (max-width: 600px) { .img-7grid { grid-template-columns: repeat(3, 1fr); gap: 8px; } .img-btn { width: 34px; height: 34px; } }
-  @media (max-width: 380px) { .img-7grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .img-7grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } .img-btn { width: 34px; height: 34px; } }
+  @media (max-width: 380px) { .img-7grid { grid-template-columns: 1fr; } }
 
   /* FIRMA COMPACTA */
   .sig-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
@@ -109,7 +109,38 @@
 
   @media (max-width: 600px) { .page-header { position: static; } .header-inner { flex-wrap: wrap; } .logo-img { height: 42px; } .r3 { grid-template-columns: 1fr 1fr; } .r4 { grid-template-columns: 1fr 1fr; } .insp-grid { grid-template-columns: 1fr; } .insp-col:first-child { border-right: none; border-bottom: 1px solid var(--gray-border); } canvas#sigCanvas { height: 100px; } .sig-row { grid-template-columns: 1fr; } }
   @media (max-width: 420px) { .r2 { grid-template-columns: 1fr; } .main { padding: 14px 10px 0; } .card { padding: 12px; } }
-  @media print { body { background: white; } .page-header { position: static; box-shadow: none; } .btn-submit, .btn-add, .btn-remove, .btn-clear-sig { display: none; } .card { box-shadow: none; border: 1px solid #ccc; } .obs-wide { border: 1px solid #ccc; min-height: 120px; } }
+  
+  @media print { 
+    body { background: white; } 
+    .page-header { position: static; box-shadow: none; } 
+    .btn-submit, .btn-add, .btn-remove, .btn-clear-sig { display: none; } 
+    .card { box-shadow: none; border: 1px solid #ccc; } 
+    .obs-wide { border: 1px solid #ccc; min-height: 120px; } 
+
+    /* Control exacto de 4 imágenes (2 columnas x 2 filas) por hoja */
+    .img-7grid { 
+      display: block !important; 
+      overflow: hidden;
+    }
+    .img-slot { 
+      float: left;
+      width: 48%; /* 2 por fila */
+      margin: 1%;
+      box-sizing: border-box;
+      /* Asegura que no queden cortadas a la mitad */
+      break-inside: avoid; 
+      page-break-inside: avoid;
+    }
+    /* Limpia la fila flotante cada vez que empieza una nueva fila */
+    .img-slot:nth-child(2n+1) {
+      clear: left;
+    }
+    /* Fuerza un salto de página después de la imagen #4 y #8 */
+    .img-slot:nth-child(4n) {
+      page-break-after: always;
+      break-after: page;
+    }
+  }
 </style>
 </head>
 <body>
@@ -450,27 +481,27 @@ function collectFormData(){
   const fmt = s => { if(!s) return '—'; const [d,t]=s.split('T'); const [y,m,dy]=d.split('-'); return `${dy}/${m}/${y} ${t||''}`; };
 
   return {
-    cliente:       v('cliente')     || '—',
-    rut:           v('rut')         || '—',
-    telefono:      v('telefono')    || '—',
-    email_taller:  v('emailTaller') || 'taller@obreque.cl',
-    email_cliente: v('emailCliente')|| '—',
-    direccion:     v('direccion')   || '—',
-    marca:         v('marca')       || '—',
-    modelo:        v('modelo')      || '—',
-    anio:          v('anio')        || '—',
+    cliente:       v('cliente')      || '—',
+    rut:           v('rut')          || '—',
+    telefono:      v('telefono')     || '—',
+    email_taller:  v('emailTaller')  || 'taller@obreque.cl',
+    email_cliente: v('emailCliente') || '—',
+    direccion:     v('direccion')    || '—',
+    marca:         v('marca')        || '—',
+    modelo:        v('modelo')       || '—',
+    anio:          v('anio')         || '—',
     patente:       v('patente').toUpperCase() || '—',
-    chasis:        v('chasis')      || '—',
+    chasis:        v('chasis')       || '—',
     fecha_ingreso: fmt(fi),
-    km_ingreso:    v('kmIngreso')   || '—',
+    km_ingreso:    v('kmIngreso')    || '—',
     fecha_entrega: fmt(fe),
     solicitudes:   repairs,
-    obs_mecanico:  v('obsMecanico') || '(sin observaciones)',
+    obs_mecanico:  v('obsMecanico')  || '(sin observaciones)',
     inspeccion:    insp,
     combustible:   fuel ? fuel.value : '—',
-    obs_danos:     v('obsDanos')    || '(sin observaciones)',
-    sig_nombre:    v('sigNombre')   || '—',
-    sig_rut:       v('sigRut')      || '—',
+    obs_danos:     v('obsDanos')     || '(sin observaciones)',
+    sig_nombre:    v('sigNombre')    || '—',
+    sig_rut:       v('sigRut')       || '—',
     firma_img:     firmaBase64,
     fotos:         fotosDano
   };
