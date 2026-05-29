@@ -276,7 +276,8 @@
 <header class="page-header">
   <div class="header-inner">
     <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
-      <img class="logo-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Obreque Abarca y Cía Ltda">
+      <!-- Logo actualizado con la imagen que proporcionaste -->
+      <img class="logo-img" src="Captura de pantalla 2026-05-28 184344.png" alt="Obreque Abarca y Cía Ltda">
       <div class="header-info">
         <p>Génesis 160, Parque Industrial Recondo – Puerto Montt</p>
         <p>Fono/Fax: 65 348 465 &nbsp;·&nbsp; automotriz@obreque.cl</p>
@@ -289,6 +290,7 @@
 <div class="main">
   <div class="form-title">Control de Entrada y Salida de Vehículos</div>
 
+  <!-- 1. IDENTIFICACIÓN -->
   <div class="section">
     <div class="section-head"><div class="section-num">1</div><div class="section-title">Identificación</div></div>
     <div class="card">
@@ -297,9 +299,9 @@
         <div class="field"><label class="lbl">RUT *</label><input type="text" id="rut" placeholder="12.345.678-9"></div>
         <div class="field"><label class="lbl">Teléfono</label><input type="tel" id="telefono" placeholder="+56 9 1234 5678" autocomplete="tel"></div>
       </div>
-      <div class="row r2">
+      <!-- Fila modificada: Solo Dirección, sin Contacto -->
+      <div class="row" style="grid-template-columns: 1fr;">
         <div class="field"><label class="lbl">Dirección</label><input type="text" id="direccion" placeholder="Dirección" autocomplete="street-address"></div>
-        <div class="field"><label class="lbl">Nombre de contacto</label><input type="text" id="contacto" placeholder="Persona de contacto"></div>
       </div>
       <div class="divider"></div>
       <div class="row r4">
@@ -317,6 +319,7 @@
     </div>
   </div>
 
+  <!-- 2. SOLICITUD DE REPARACIONES -->
   <div class="section">
     <div class="section-head"><div class="section-num">2</div><div class="section-title">Solicitud de reparaciones o revisiones</div></div>
     <div class="card">
@@ -330,6 +333,7 @@
     </div>
   </div>
 
+  <!-- 3. OBSERVACIONES MECÁNICO -->
   <div class="section">
     <div class="section-head"><div class="section-num">3</div><div class="section-title">Observaciones del mecánico ejecutor</div></div>
     <div class="card">
@@ -340,6 +344,7 @@
     </div>
   </div>
 
+  <!-- 4. INSPECCIÓN VISUAL -->
   <div class="section">
     <div class="section-head"><div class="section-num">4</div><div class="section-title">Inspección visual</div></div>
     <div class="card">
@@ -374,6 +379,7 @@
     </div>
   </div>
 
+  <!-- 5. CONTROL DE DAÑOS -->
   <div class="section">
     <div class="section-head"><div class="section-num">5</div><div class="section-title">Control de daños</div></div>
     <div class="card">
@@ -470,6 +476,7 @@
     </div>
   </div>
 
+  <!-- 6. DECLARACIÓN Y FIRMA -->
   <div class="section">
     <div class="section-head"><div class="section-num">6</div><div class="section-title">Declaración y firma del cliente</div></div>
     <div class="card">
@@ -498,6 +505,7 @@
     </div>
   </div>
 
+  <!-- 7. CORREO DE RECEPCIÓN -->
   <div class="section">
     <div class="section-head"><div class="section-num">7</div><div class="section-title">Correo de recepción</div></div>
     <div class="card">
@@ -687,7 +695,7 @@ function collectFormData(){
     email_taller:  v('emailTaller') || 'taller@obreque.cl',
     email_cliente: v('emailCliente')|| '—',
     direccion:     v('direccion')   || '—',
-    contacto:      v('contacto')    || '—',
+    contacto:      '—', // Eliminado del formulario
     marca:         v('marca')       || '—',
     modelo:        v('modelo')      || '—',
     anio:          v('anio')        || '—',
