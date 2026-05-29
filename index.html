@@ -403,6 +403,7 @@ function updateDanoCount(){
   if(el) el.textContent = count + ' / 8';
 }
 
+/* ── RECOPILAR DATOS DEL FORMULARIO ── */
 function collectFormData(){
   const v = id => document.getElementById(id).value.trim();
 
@@ -416,6 +417,12 @@ function collectFormData(){
     .join('  |  ');
   const fuel = document.querySelector('input[name=fuel]:checked');
 
+  // EXTRACCIÓN DE LA FIRMA COMO IMAGEN (Base64)
+  let firmaBase64 = "";
+  if (hasSig) {
+    firmaBase64 = document.getElementById('sigCanvas').toDataURL('image/png');
+  }
+
   const fotosDano = [];
   for(let i=0; i<8; i++){
     const slot = document.getElementById('dslot'+i);
@@ -426,6 +433,37 @@ function collectFormData(){
       }
     }
   }
+
+  const fi = v('fechaIngreso');
+  const fe = v('fechaEntrega');
+  const fmt = s => { if(!s) return '—'; const [d,t]=s.split('T'); const [y,m,dy]=d.split('-'); return `${dy}/${m}/${y} ${t||''}`; };
+
+  return {
+    cliente:       v('cliente')     || '—',
+    rut:           v('rut')         || '—',
+    telefono:      v('telefono')    || '—',
+    email_taller:  v('emailTaller') || 'taller@obreque.cl',
+    email_cliente: v('emailCliente')|| '—',
+    direccion:     v('direccion')   || '—',
+    marca:         v('marca')       || '—',
+    modelo:        v('modelo')      || '—',
+    anio:          v('anio')        || '—',
+    patente:       v('patente').toUpperCase() || '—',
+    chasis:        v('chasis')      || '—',
+    fecha_ingreso: fmt(fi),
+    km_ingreso:    v('kmIngreso')   || '—',
+    fecha_entrega: fmt(fe),
+    solicitudes:   repairs,
+    obs_mecanico:  v('obsMecanico') || '(sin observaciones)',
+    inspeccion:    insp,
+    combustible:   fuel ? fuel.value : '—',
+    obs_danos:     v('obsDanos')    || '(sin observaciones)',
+    sig_nombre:    v('sigNombre')   || '—',
+    sig_rut:       v('sigRut')      || '—',
+    firma_img:     firmaBase64,      // <-- SE ENVÍA LA FIRMA AQUÍ
+    fotos:         fotosDano
+  };
+}
 
   const fi = v('fechaIngreso');
   const fe = v('fechaEntrega');
