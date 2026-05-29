@@ -464,7 +464,6 @@ function collectFormData(){
     fotos:         fotosDano
   };
 }
-
   const fi = v('fechaIngreso');
   const fe = v('fechaEntrega');
   const fmt = s => { if(!s) return '—'; const [d,t]=s.split('T'); const [y,m,dy]=d.split('-'); return `${dy}/${m}/${y} ${t||''}`; };
